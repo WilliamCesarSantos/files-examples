@@ -1,8 +1,11 @@
 package br.ada.tech.class1171.customer;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Customer {
+public class Customer implements Serializable {
+
+    public static final long serialVersionUid = 1l;
 
     private Long id;
     private String name;

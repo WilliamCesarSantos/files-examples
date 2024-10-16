@@ -5,14 +5,14 @@ import br.ada.tech.class1171.customer.Customer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MainBinary {
 
     public static void main(String[] args) throws IOException {
-        var rootFolder = Paths.get("./database/binary/customers");
+//        var rootFolder = Paths.get("./database/binary/customers");
         //DataHelper.customers().forEach(customer -> write(rootFolder, customer));
-        read(rootFolder);
+//        read(rootFolder);
+        write(new File("./customer-test.bin"), DataHelper.customers().get(0));
     }
 
     public static void write(Path root, Customer customer) {
@@ -20,7 +20,7 @@ public class MainBinary {
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
         try {
-            file = new File(root.toAbsolutePath().toString(), "customer-"+customer.getId()+".bin");
+            file = new File(root.toAbsolutePath().toString(), "customer-" + customer.getId() + ".bin");
             fileOutputStream = new FileOutputStream(file);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
@@ -28,6 +28,17 @@ public class MainBinary {
 
             objectOutputStream.close();
             fileOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void write(File file, Customer customer) {
+        try (
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
+        ) {
+            objectOutputStream.writeObject(customer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
